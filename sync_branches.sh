@@ -1,3 +1,5 @@
+# First, add upstream branch:
+# $ git remote add upstream https://github.com/hvge/cc7.git
 # See following articles for detail:
 # - https://help.github.com/articles/configuring-a-remote-for-a-fork/
 # - https://help.github.com/articles/syncing-a-fork/"
