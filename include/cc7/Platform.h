@@ -17,6 +17,39 @@
 #pragma once
 
 // =======================================================================
+// Common macros
+// =======================================================================
+
+//
+// Defines CC7_EXTERN_C, CC7_EXTERN_C_BEGIN & CC7_EXTERN_C_END macros
+// which allows you define extern functions for both C and C++ codes.
+//
+#ifdef __cplusplus
+	// C++
+	#define CC7_EXTERN_C				extern "C"
+	#define CC7_EXTERN_C_BEGIN          extern "C" {
+	#define CC7_EXTERN_C_END			}
+#else
+	// C
+	#define CC7_EXTERN_C				extern
+	#define CC7_EXTERN_C_BEGIN
+	#define CC7_EXTERN_C_END
+#endif
+
+//
+// Compatibility with non-clang compilers.
+//
+#ifndef __has_builtin
+	#define __has_builtin(x)	0
+#endif
+#ifndef __has_feature
+	#define __has_feature(x)	0
+#endif
+#ifndef __has_extension
+	#define __has_extension		__has_feature
+#endif
+
+// =======================================================================
 //
 // Main platform switch
 //
@@ -36,11 +69,15 @@
 		#include <string.h>
 	#endif
 	#include "TargetConditionals.h"
-	// Switch between iOS & OSX
-	#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED)
+	// Switch between iOS & OSX & Others...
+	#if TARGET_OS_IPHONE == 1 && TARGET_OS_IOS == 1
 		#define CC7_IOS
-	#elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
+	#elif TARGET_OS_OSX == 1
 		#define CC7_OSX
+	#elif TARGET_OS_WATCH == 1
+		#define CC7_APPLE_WATCH
+	#elif TARGET_OS_TV == 1
+		#define CC7_APPLE_TV
 	#endif
 	// Common defines for Apple platforms
 	#define CC7_APPLE
@@ -64,9 +101,9 @@
 	// -------------------------------------------------------------------
 	#include <stdlib.h>
 	#include <string.h>
-	#include <openssl/crypto.h> // for OPENSSL_cleanse, fix this...
 	//
 	#define CC7_ANDROID
+	CC7_EXTERN_C void OPENSSL_cleanse(void *ptr, size_t len);
 	#define CC7_SecureClean(ptr, size)  OPENSSL_cleanse(ptr, size)
 	// 64 bit
 	#if __SIZEOF_POINTER__ == 8
@@ -115,27 +152,14 @@
 // =======================================================================
 
 #if defined (DEBUG)
-	// DEBUG builds have CC7_LOG and CC7_ASSERT macros turned on
-	#define ENABLE_CC7_LOG
-	#define ENABLE_CC7_ASSERT
+	// DEBUG builds have CC7_LOG and CC7_ASSERT macros turned on by default
+	#ifndef ENABLE_CC7_LOG
+		#define ENABLE_CC7_LOG
+	#endif
+	#ifndef ENABLE_CC7_ASSERT
+		#define ENABLE_CC7_ASSERT
+	#endif
 #endif
-
-//
-// Defines CC7_EXTERN_C, CC7_EXTERN_C_BEGIN & CC7_EXTERN_C_END macros
-// which allows you define external functions for both C and C++ codes.
-//
-#ifdef __cplusplus
-	// C++
-	#define CC7_EXTERN_C				extern "C"
-	#define CC7_EXTERN_C_BEGIN          extern "C" {
-	#define CC7_EXTERN_C_END			}
-#else
-	// C
-	#define CC7_EXTERN_C				extern
-	#define CC7_EXTERN_C_BEGIN
-	#define CC7_EXTERN_C_END
-#endif
-
 
 // =======================================================================
 // Debug Features
