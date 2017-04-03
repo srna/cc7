@@ -69,6 +69,16 @@ namespace tests
 		return _offset;
 	}
 	
+	size_t TestFile::skipSize(size_t s)
+	{
+		if (!isValid()) {
+			return 0;
+		}
+		s = std::min(size() - _offset, s);
+		_offset += s;
+		return s;
+	}
+	
 	cc7::ByteRange TestFile::readMemory(size_t size)
 	{
 		size = std::min(size, remaining());

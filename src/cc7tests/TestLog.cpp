@@ -25,7 +25,7 @@ namespace tests
 {
 	// MARK: Macros & Declarations
 	
-#define GUARD_LOCK()	std::lock_guard<std::mutex> lock_guard(*_lock)
+#define GUARD_LOCK()	std::lock_guard<std::mutex> lock_guard(_lock)
 	
 	static const std::string newline("\n");
 	
@@ -37,7 +37,6 @@ namespace tests
 	// MARK: Construction / Destruction
 	
 	TestLog::TestLog() :
-		_lock(new std::mutex()),
 		_dump_to_system_log(false),
 		_incident_breakpoint(false)
 	{
@@ -49,7 +48,6 @@ namespace tests
 	
 	TestLog::~TestLog()
 	{
-		delete _lock;
 	}
 	
 	
@@ -143,7 +141,7 @@ namespace tests
 		bool dump_to_syslog;
 		bool break_execution;
 		
-		_lock->lock();
+		_lock.lock();
 		{
 			// Look for already reported location
 			std::string file_location_key(full_path);
@@ -164,7 +162,7 @@ namespace tests
 			dump_to_syslog = _dump_to_system_log && !_incident_breakpoint;
 			break_execution = _incident_breakpoint;
 		}
-		_lock->unlock();
+		_lock.unlock();
 		
 		if (dump_to_syslog) {
 			CC7_LOG("%s", message_buffer);
@@ -340,6 +338,10 @@ namespace tests
 	
 	// MARK: Helper Functions
 	
+	/**
+	 Appends |str| to the |dest_string| with respecting multiple lines and leading indentation. For each
+	 line prepends the |indentation| string.
+	 */
 	static void _AppendMultilineString(const std::string & str, const std::string & indentation, std::string & dest_string)
 	{
 		size_t nl_pos = str.find(newline);
@@ -365,7 +367,10 @@ namespace tests
 		}
 	}
 	
-	
+	/**
+	 Returns char pointer pointing to file name part of the provided |path|.
+	 The function always returns valid pointer, even if the path parameter is NULL.
+	 */
 	static const char * _LookForFileName(const char * path)
 	{
 #if defined(CC7_WINDOWS)

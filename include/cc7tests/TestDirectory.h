@@ -24,19 +24,41 @@ namespace tests
 {
 	class TestResource;
 	
+	/**
+	 The DestDirectory class is a v
+	 */
 	class TestDirectory
 	{
 	public:
 		typedef const cc7::tests::TestResource* TResource;
 		typedef std::vector<TResource> TResourceList;
 		
+		/**
+		 Constructs an object with list of resources.
+		 */
 		TestDirectory(std::initializer_list<TResource> il);
-		~TestDirectory();
 		
+		/**
+		 Destructs an directory object.
+		 */
+		~TestDirectory();
+
+		/**
+		 Returns a new TestFile object for required |path|. The method throws
+		 an invalid exception when there's no such file at requested path.
+		 */
 		TestFile findFile(const std::string & path) const;
+		
+		/**
+		 Returns const reference to all resources available in this directory.
+		 */
 		const TResourceList & allResources() const;
 		
 	private:
+		
+		/**
+		 A list of resources stored in this directory.
+		 */
 		TResourceList _resources;
 	};
 	

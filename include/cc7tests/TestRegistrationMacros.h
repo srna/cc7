@@ -31,9 +31,9 @@
  
  The |TestClassName| parameter is a name of UnitTest derived class
  
- The |TestTagsgOrNULL| parameter defines tags for the test, which allows
- future categorization or filtering, during the test runs. You can use NULL
- if test has no tags, or string, with space separated tags.
+ The |TestTagsgOrNULL| parameter defines tags associated with the test. The tags
+ allows categorization or filtering during the test runs. You can use NULL
+ if test has no tags, or string, with a space separated keywords.
  
  Note that the 'TestClassName' type must be fully declared. You can put
  the class to a different namespace, but the namespace where's the macro used
@@ -52,11 +52,11 @@
 	};																			\
 
 /**
- The CC7_USE_UNIT_TEST() makes previously created internal structure visible
+ The CC7_USE_UNIT_TEST() makes internal UnitTestDescriptor structure visible
  in the current context. Note that the namespace where's this macro used, must match
  the one, where test structure was created.
  
- Normally you don't need to use this macro directly, because is used in the
+ Normally you don't need to use this macro directly, because it's used in the
  implementation of CC7_ADD_UNIT_TEST().
  */
 #define CC7_USE_UNIT_TEST(TestClassName)										\

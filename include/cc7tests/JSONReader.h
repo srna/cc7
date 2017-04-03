@@ -23,18 +23,35 @@ namespace cc7
 {
 namespace tests
 {
-	//
-	// Yet another JSON parser :)
-	//
+	/**
+	 Yet another JSON parser 
+	 
+	 
+	 */
 	
-	class TestFile;
 	class TestDirectory;
 	
+	/**
+	 Parses a JSON string and stores the constructed DOM into the |out_value| reference. 
+	 Returns false if parser can't process the provided string. If the |out_error| pointer
+	 is not null then the detailed error description is stored to the string.
+	 */
 	bool JSON_ParseString(const std::string & str, JSONValue & out_value, std::string * out_error = nullptr);
 	
+	/**
+	 Parses a provided JSON string in form of ByteRange and stores the constructed DOM into 
+	 the |out_value| reference.  Returns false if parser can't process the provided string. 
+	 If the |out_error| pointer is not null then the detailed error description is stored
+	 to the string.
+	 */
 	bool JSON_ParseData(const cc7::ByteRange & range, JSONValue & out_value, std::string * out_error = nullptr);
 	
-	JSONValue JSON_ParseFile(const TestDirectory & dir, const std::string & file_name);
+	/**
+	 Parses a requested file at |path| from the test directory |dir|.
+	 Returns DOM constructed from the JSON data or throws an exception when the parser can't
+	 parse the data.
+	 */
+	JSONValue JSON_ParseFile(const TestDirectory & dir, const std::string & path);
 	
 } // cc7::tests
 } // cc7

@@ -25,11 +25,16 @@ namespace cc7
 namespace tests
 {
 	/**
-	 The TestLogData structure contains all testing information
-	 collected during the testing session.
+	 The TestLogData structure contains all information collected 
+	 during the testing session. You can obtain a copy of this
+	 structure by calling TestLog::logData() method.
 	 */
 	struct TestLogData
 	{
+		/**
+		 The Counters structure contains various counters
+		 about the testing session.
+		 */
 		struct Counters
 		{
 			Counters() :
@@ -43,6 +48,9 @@ namespace tests
 			{
 			}
 			
+			/**
+			 Resets all counters to initial values.
+			 */
 			void reset()
 			{
 				incidents_count = 0;
@@ -89,6 +97,10 @@ namespace tests
 		{
 		}
 		
+		/**
+		 Resets all members of TestLogData structure to appropriate
+		 initial values.
+		 */
 		void reset()
 		{
 			log.clear();
@@ -126,7 +138,7 @@ namespace tests
 		TestLog();
 		~TestLog();
 		
-		// Messages
+		// MARK: - Messages
 		
 		/**
 		 Adds |message| to the test log.
@@ -145,20 +157,20 @@ namespace tests
 		void logFormattedMessage(const char * format, ...);
 
 		/**
-		 Adds incident to the test log. The |file| and |line| parameter determines unique
-		 location of the incident and repetitive events are ignored. Only first occurence of the
-		 same incident is added to the test log and incidents log. The optional |condition| parameter
-		 should represent a failed condition, which triggered the incident report. The |format| 
-		 string and subsequent optional parameters allows construction of almost arbitrary 
+		 Adds incident to the test log. The |file| and |line| parameter determines an unique
+		 location of the incident while the repetitive events will be ignored. So, only the first 
+		 occurence of the same incident is added to the test log and incidents log. The optional 
+		 |condition| parameter may represent a failed condition, which triggered the incident report. 
+		 The |format| string and subsequent optional parameters allows construction of almost arbitrary
 		 formatted message.
 		 
-		 Unlike logMessage or logFormattedMessage methods, the method adds incident to both test and
-		 incidents log.
+		 Unlike logMessage or logFormattedMessage methods, the method adds an incident to the both test 
+		 and incidents log.
 		 */
 		void logIncident(const char * file, int line, const char * condition, const char * format, ...);
 
 		
-		// Indentation
+		// MARK: - Indentation
 		
 		/**
 		 Sets current indentation level to |indentation_level| value.
@@ -193,7 +205,7 @@ namespace tests
 		std::string indentationSuffix() const;
 		
 		
-		// Log configuration
+		// MARk: - Configuration
 		
 		/**
 		 Enables or disables passing messages to system log. The logging also depends
@@ -216,7 +228,7 @@ namespace tests
 		bool incidentBreakpointEnabled() const;
 		
 		
-		// MARK: Log results and control
+		// MARK: - Results and control
 		
 		/**
 		 Returns copy of internal TestLogData structure with actual and full 
@@ -242,16 +254,28 @@ namespace tests
 		
 		
 		
-		// MARK: Passed / Failed counters
+		// MARK: - Passed / Failed counters
 		
+		/**
+		 Increases number of passed tests
+		 */
 		void addPassedTest();
+		/**
+		 Increases number of failed tests
+		 */
 		void addFailedTest();
+		/**
+		 Increases number of sipped tests.
+		 */
 		void addSkippedTest();
+		/**
+		 Sets elapsed time to internal TestLogData structure.
+		 */
 		void setElapsedTime(double time);
 		
 	private:
 		
-		// Private methods & members
+		// MARK: - Private methods & members
 		
 		/**
 		 Updates internal _indentation string, based on desired level of indentation.
@@ -259,21 +283,51 @@ namespace tests
 		 */
 		void updateIndentationToLevel(size_t level);
 		
+		/**
+		 Appends |string| to the log. The provided string can contain multiple lines.
+		 */
 		void appendMultilineString(const std::string & string);
 		
+		/**
+		 Returns current indentation level.
+		 */
 		size_t indentationLevelImpl() const;
 		
-		std::mutex *	_lock;
-		
+		/**
+		 Private mutex. The member is mutable, due to fact, that we need to access
+		 lock also in const getters.
+		 */
+		mutable std::mutex	_lock;
+		/**
+		 The whole indentation string which is prepended to each line added to the log.
+		 It is constructed as: _indentation_prefix + (' ' x indentation_level) + _indentation_suffix.
+		 */
 		std::string		_indentation;
+		/**
+		 Current indentation prefix.
+		 */
 		std::string		_indentation_prefix;
+		/**
+		 Current indentation suffix.
+		 */
 		std::string		_indentation_suffix;
+		/**
+		 Collected log.
+		 */
 		TestLogData		_log_data;
-		
+		/**
+		 The set<string> contains locations for already reported incidents. The key for 
+		 an unique location is calculated as "path:line"
+		 */
 		std::set<std::string> _incident_locations_set;
-		
-		// flags
+		/**
+		 If true, then the logger will pass log immediately to the system log.
+		 */
 		bool			_dump_to_system_log;
+		/**
+		 If true, then the logger will break execution at software breakpoint, for each reported
+		 incident.
+		 */
 		bool			_incident_breakpoint;
 	};
 	

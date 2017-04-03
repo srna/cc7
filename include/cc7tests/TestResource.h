@@ -22,21 +22,66 @@ namespace cc7
 {
 namespace tests
 {
+	/**
+	 The TestResource class represents a continuous immutable region 
+	 of the memory which can be used later as a data for unit testing.
+	 This object is usually used in a cooperation with TestDirectory to
+	 build a simple directory-file hierarchies. Check documentation about
+	 TestDirectory for more details.
+	 
+	 Discussion
+	 
+	 Constructing the test resources and directories manually is possible, but
+	 it's notvery practical technique. Instead of doing this, you can prefer 
+	 a "data-converter" which is specially designed for creation a hierarchies
+	 of TestResource & TestDirectory objects. Check the documentation
+	 */
 	class TestResource
 	{
 	public:
-		TestResource(const cc7::byte * data, size_t size, const char * name);
+		/**
+		 Constructs a test resource object for given memory region and for |path|.
+		 The associated memory and path string must exist during the lifetime
+		 of the TestResource object.
+		 */
+		TestResource(const cc7::byte * data, size_t size, const char * path);
 		
-		const cc7::byte *	data() const { return _data; }
-		size_t				size() const { return _size; }
-		const char *		name() const { return _name; }
-		cc7::ByteRange		range() const { return cc7::ByteRange(_data, _size); }
+		/**
+		 Returns a pointer to resource data pointer.
+		 */
+		const cc7::byte * data() const
+		{
+			return _range.data();
+		}
+		
+		/**
+		 Returns a number of bytes stored in the resource.
+		 */
+		size_t size() const
+		{
+			return _range.size();
+		}
+		
+		/**
+		 Returns a path associated with this resource.
+		 */
+		const char * path() const
+		{
+			return _path;
+		}
+		
+		/**
+		 Returns a ByteRange object with all bytes stored in the resource.
+		 */
+		cc7::ByteRange range() const
+		{
+			return _range;
+		}
 		
 	private:
 		
-		const cc7::byte *	_data;
-		size_t				_size;
-		const char *		_name;
+		cc7::ByteRange		_range;
+		const char *		_path;
 	};
 	
 } // cc7::tests

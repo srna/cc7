@@ -34,7 +34,7 @@ namespace tests
 	TestFile TestDirectory::findFile(const std::string &path) const
 	{
 		for (auto&& resource : _resources) {
-			if (path == resource->name()) {
+			if (path == resource->path()) {
 				return TestFile(resource);
 			}
 		}

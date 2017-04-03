@@ -47,7 +47,7 @@ namespace tests
 	{
 	public:
 		
-		// Instantiation
+		// MARK: - Instantiation
 		
 		/**
 		 Creates a new TestManager instance with default list of tests.
@@ -64,11 +64,10 @@ namespace tests
 		 */
 		static void releaseManager(TestManager * manager);
 		
-		
-		// Breakpoints configuration
+		// MARK: - Breakpoints configuration
 		
 		/**
-		 Sets software breakpoint, triggered on assertion enabled or disabled.
+		 Sets software breakpoint, triggered on assertion, enabled or disabled.
 		 The TestManager changes default behavior of CC7_ASSERT() macro
 		 during the testing and by default ignores all thesese assertions.
 		 
@@ -107,7 +106,7 @@ namespace tests
 		 */
 		bool logCapturingEnabled() const;
 		
-		// Tests registration
+		// MARK: - Tests registration
 		
 		/**
 		 Adds one particular test, represented by UnitTestCreationInfo object
@@ -122,8 +121,7 @@ namespace tests
 		 */
 		void addUnitTestList(const UnitTestCreationInfoList & test_info_list);
 		
-		
-		// Tests execution
+		// MARK: - Tests execution
 		
 		/**
 		 Runs all registered tests at once.
@@ -137,9 +135,7 @@ namespace tests
 		 */
 		bool runTestsWithFilter(const std::string & included_tags, const std::string & excluded_tags);
 
-		
-		
-		// Logging
+		// MARK: - Logging
 		
 		/**
 		 Sets custom symbolic name for TestManager object. The name will be displayed at the beginning
@@ -178,13 +174,13 @@ namespace tests
 		 */
 		void logMessage(const std::string & message);
 		/**
-		 Puts dashed line into the test log.
+		 Puts separator in form of dashed line into the test log.
 		 */
 		void logSeparator();
 		
 	private:
 
-		// Construction / Destruction
+		// MARK: - Private Construction / Destruction
 		
 		TestManager();
 		~TestManager();
@@ -198,7 +194,7 @@ namespace tests
 		 */
 		bool executeTest(UnitTestCreationInfo ti, const std::string & full_test_desc);
 		
-		// Assert handler
+		// MARK: - Assert handler
 		
 		/**
 		 Assertion point
@@ -207,6 +203,8 @@ namespace tests
 		void addAssertion(const char * message);
 		void setupAssertionHandler();
 		void restoreAssertionHandler();
+		
+		// MARK: - Log handler
 		
 		/**
 		 Log capturing

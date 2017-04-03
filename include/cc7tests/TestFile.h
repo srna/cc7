@@ -23,45 +23,97 @@ namespace cc7
 namespace tests
 {
 	class TestResource;
-	class JSONValue;
 	
+	/**
+	 The TestFile is a simple interface providing a filesystem-like
+	 operations, like data reading & seeking over the file.
+	 
+	 In fact, there's no regular file behind this object and all data
+	 is provided from static memory buffer.
+	 */
 	class TestFile
 	{
 	public:
+		
+		/**
+		 Constructs a copy of test file |f|. The copy will have the same 
+		 size, reading offset and the referenced TestResource, but can be used 
+		 as a completely separated handle to the underlying resource.
+		 */
 		TestFile(const TestFile & f) = default;
+		/**
+		 Move constrctor.
+		 */
 		TestFile(TestFile && f) = default;
+		/**
+		 Assign operator.
+		 */
 		TestFile & operator=(const TestFile & t) = default;
+		/**
+		 Move operator.
+		 */
 		TestFile & operator=(TestFile && t) = default;
 		
+		/**
+		 Returns true if this file is valid.
+		 */
 		bool isValid() const;
 		
-		// File size
+		/**
+		 Returns a file size in bytes.
+		 */
 		size_t size() const;
-		// Current reading offset
+		
+		/**
+		 Returns a current reading offset in this file.
+		 */
 		size_t offset() const;
-		// Remaining bytes for reading
+		
+		/**
+		 Returns a number of bytes remaining for reading.
+		 */
 		size_t remaining() const;
 		
-		// Seeks to pos and returns new offset
+		/**
+		 Changes a reading offset to |pos| offset and returns actual
+		 reading offset after the change. If requested position
+		 is greater than the size of file, then it sets offset
+		 to the end of file.
+		 */
 		size_t seekTo(size_t pos);
-		// Skips size bytes and returns how many bytes were skipped
+		
+		/**
+		 Skips |size| bytes in the file and returns how many bytes were 
+		 skipped.
+		 */
 		size_t skipSize(size_t size);
 		
-		// Returns byte range for required size. If the size is less than
-		// remaining bytes then returns as much bytes as possible
-		cc7::ByteRange	readMemory(size_t size);
+		/**
+		 Reads |size| bytes from the file. If the |size| is less than 
+		 the remaining bytes then returns as much bytes as possible.
+		 The returned ByteRange is always initialized with the static area
+		 of memory, which is never disposed off.
+		 */
+		cc7::ByteRange readMemory(size_t size);
 		
-		// Reads one byte from file. If there's no byte left, then
-		// returns TestFile::EndOfFile
-		cc7::U16		readByte();
+		/**
+		 Reads an one byte from the file. If there's no bytes left, then
+		 returns TestFile::EndOfFile constant.
+		 */
+		cc7::U16 readByte();
 		
-		// Returns one line from file. If there's no bytes left, then
-		// returns empty string. You should check remaining bytes.
-		std::string		readLine();
+		/**
+		 Reads an one line fromt he file. If there's no bytes left, then
+		 returns an empty string. Note that the method may return empty
+		 string also when the line is empty (e.g. there's new line character
+		 at the current offset), so you should check the remaining bytes
+		 to distinguish between these two situations.
+		 */
+		std::string readLine();
 		
-		// Reads 
-		void			readJsonValue(JSONValue & value);
-		
+		/**
+		 A constant returned from readByte(), when there's no bytes left.
+		 */
 		static const cc7::U16 EndOfFile = 0xFFFF;
 		
 		
@@ -69,11 +121,23 @@ namespace tests
 		friend class TestDirectory;
 		
 		// Private constructor with a resource
+		
+		/**
+		 Constructs an object with TestResource object. This is a private
+		 constructor used exclusively in the TestDirectory class. There's
+		 no other way for TestFile creation.
+		 */
 		TestFile(const TestResource * resource);
 		
+		/**
+		 Referenced TestResource object.
+		 */
 		const TestResource *	_resource;
-		size_t					_offset;
 		
+		/**
+		 Current reading offset.
+		 */
+		size_t					_offset;
 	};
 	
 } // cc7::tests

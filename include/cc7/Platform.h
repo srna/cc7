@@ -87,7 +87,7 @@
 	- Works just like CC7_ASSERT(), but can be used in conditional statements.
 	  The result from the condition is used as the result of the macro.
 	- For non DEBUG builds only the condition is expanded
-    - For example:
+	- For example:
 	
 		if (CC7_CHECK(can_process, "Can't process")) { 
 			doSomething();
