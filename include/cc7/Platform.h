@@ -94,6 +94,7 @@
 	#else
 		#define CC7_BIG_ENDIAN
 	#endif
+	#define CC7_UNUSED_VAR	__attribute__((unused))
 	//
 #elif __ANDROID__
 	// -------------------------------------------------------------------
@@ -113,6 +114,7 @@
 	#endif
 	// TODO: handle possible BE on Androids
 	#define CC7_LITTLE_ENDIAN
+	#define CC7_UNUSED_VAR	__attribute__((unused))
 	//
 #elif defined(WINAPI_FAMILY) && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 	// -------------------------------------------------------------------
