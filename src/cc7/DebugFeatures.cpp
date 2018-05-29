@@ -20,6 +20,14 @@ namespace cc7
 {
 namespace debug
 {
+	
+#if defined(DEBUG) || defined(ENABLE_CC7_LOG) || defined(ENABLE_CC7_ASSERT)
+	// Following string is useful for debug build detection during the library deployment.
+	// You can check whether final executable or library doesn't contain this string,
+	// to be sure that the release build was really produced.
+	const char * gFooDEBUG = "ThisIsDebugBuild_CC7";
+#endif
+
 	//
 	// Must be always implemented. Doesn't depend on assert.
 	//
