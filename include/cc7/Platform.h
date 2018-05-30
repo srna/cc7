@@ -172,13 +172,18 @@
 	// CC7Log is enabled
 	//
 	CC7_EXTERN_C void CC7LogImpl(const char * fmt, ...);
+	CC7_EXTERN_C void CC7LogEnableImpl(bool enable);
+	CC7_EXTERN_C bool CC7LogIsEnabledImpl();
 	#define CC7_LOG(...) CC7LogImpl(__VA_ARGS__)
-
+	#define CC7_LOG_ENABLE(enable) CC7LogEnableImpl(enable)
+	#define CC7_LOG_IS_ENABLED() CC7LogIsEnabledImpl()
 #else
 	//
 	// CC7Log is disabled
 	//
 	#define CC7_LOG(...)
+	#define CC7_LOG_ENABLE(enable)
+	#define CC7_LOG_IS_ENABLED() false
 
 #endif
 

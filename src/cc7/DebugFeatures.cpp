@@ -69,12 +69,12 @@ namespace debug
 	// Log handler
 	//
 	static LogHandlerSetup s_log_setup = { nullptr, nullptr };
+	static bool s_log_enabled = false;
 	
 	void SetLogHandler(const LogHandlerSetup & new_setup)
 	{
-		LogHandlerSetup default_setup = Platform_GetDefaultLogHandler();
 		if (!new_setup.handler) {
-			s_log_setup = default_setup;
+			s_log_setup = Platform_GetDefaultLogHandler();
 		} else {
 			s_log_setup = new_setup;
 		}
@@ -83,6 +83,16 @@ namespace debug
 	LogHandlerSetup GetLogHandler()
 	{
 		return s_log_setup;
+	}
+	
+	void SetLogEnabled(bool enabled)
+	{
+		s_log_enabled = enabled;
+	}
+	
+	bool IsLogEnabled()
+	{
+		return s_log_enabled;
 	}
 #endif //ENABLE_CC7_LOG
 
@@ -145,6 +155,10 @@ int CC7AssertImpl(int condition, const char * file, int line, const char * fmt, 
 //
 void CC7LogImpl(const char * fmt, ...)
 {
+	if (!cc7::debug::IsLogEnabled()) {
+		return;
+	}
+	
 	char message[1024];
 	va_list args;
 	va_start(args, fmt);
@@ -161,5 +175,14 @@ void CC7LogImpl(const char * fmt, ...)
 	} else {
 		cc7::debug::s_log_setup.handler(cc7::debug::s_log_setup.handler_data, message);
 	}
+}
+
+void CC7LogEnableImpl(bool enable)
+{
+	cc7::debug::SetLogEnabled(enable);
+}
+bool CC7LogIsEnabledImpl()
+{
+	return cc7::debug::IsLogEnabled();
 }
 #endif //ENABLE_CC7_LOG

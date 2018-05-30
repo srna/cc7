@@ -239,6 +239,7 @@ namespace tests
 		bool _log_capturig_enabled;
 		debug::AssertionHandlerSetup _old_assertion_setup;
 		debug::LogHandlerSetup _old_log_setup;
+		bool _old_log_enabled;
 		
 	};
 	

@@ -33,7 +33,8 @@ namespace tests
 		_assertion_breakpoint_enabled(false),
 		_log_capturig_enabled(false),
 		_old_assertion_setup({nullptr, nullptr}),
-		_old_log_setup({nullptr, nullptr})
+		_old_log_setup({nullptr, nullptr}),
+		_old_log_enabled(false)
 	{
 		
 	}
@@ -379,7 +380,9 @@ namespace tests
 	{
 #ifdef ENABLE_CC7_LOG
 		_old_log_setup = cc7::debug::GetLogHandler();
+		_old_log_enabled = cc7::debug::IsLogEnabled();
 		cc7::debug::SetLogHandler({_LogHandler, this});
+		cc7::debug::SetLogEnabled(true);
 #endif
 	}
 	
@@ -387,7 +390,9 @@ namespace tests
 	{
 #ifdef ENABLE_CC7_LOG
 		cc7::debug::SetLogHandler(_old_log_setup);
+		cc7::debug::SetLogEnabled(_old_log_enabled);
 		_old_log_setup = {nullptr, nullptr};
+		_old_log_enabled = false;
 #endif
 	}
 
