@@ -117,14 +117,20 @@ namespace debug
 	LogHandlerSetup Platform_GetDefaultLogHandler();
 	
 	/**
-	 Sets cc7 logging enabled or disabled.
+	 Sets CC7 logging enabled or disabled.
 	 */
 	void SetLogEnabled(bool enabled);
 	
 	/**
-	 Returns true if cc7 logging is enabled.
+	 Returns true if CC7 logging is enabled.
 	 */
 	bool IsLogEnabled();
+	
+	/**
+	 Returns default enabled state for cc7 logging.
+	 Note that each platform supported by CC7 has its own implementation of this function.
+	 */
+	bool Platform_IsDefaultLogEnabled();
 
 #endif // defined(ENABLE_CC7_LOG)
 

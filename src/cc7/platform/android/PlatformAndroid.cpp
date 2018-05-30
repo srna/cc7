@@ -43,6 +43,10 @@ namespace debug
 		return s_default_setup;
 	}
 	
+	bool Platform_IsDefaultLogEnabled()
+	{
+		return true;
+	}
 } // cc7::debug
 } // cc7
 #endif //ENABLE_CC7_ASSERT

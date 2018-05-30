@@ -288,13 +288,6 @@
 			path = detail;
 			sourceTree = "<group>";
 		};
-		BF30682A1CC8F87E002FD3BC /* detail */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = detail;
-			sourceTree = "<group>";
-		};
 		BF498A981CDBD4E200D7E904 /* detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -372,7 +365,6 @@
 			isa = PBXGroup;
 			children = (
 				BFE173FE1CC9664500039466 /* platform */,
-				BF30682A1CC8F87E002FD3BC /* detail */,
 				BFE174061CC96D3600039466 /* DebugFeatures.cpp */,
 				BF4B4A861CB93B8B00BF2C9D /* ByteRange.cpp */,
 				BF388B621CC62CF700DEC1AE /* ByteArray.cpp */,

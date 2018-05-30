@@ -69,7 +69,7 @@ namespace debug
 	// Log handler
 	//
 	static LogHandlerSetup s_log_setup = { nullptr, nullptr };
-	static bool s_log_enabled = false;
+	static bool s_log_enabled = Platform_IsDefaultLogEnabled();
 	
 	void SetLogHandler(const LogHandlerSetup & new_setup)
 	{
@@ -84,7 +84,7 @@ namespace debug
 	{
 		return s_log_setup;
 	}
-	
+
 	void SetLogEnabled(bool enabled)
 	{
 		s_log_enabled = enabled;

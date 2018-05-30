@@ -62,6 +62,11 @@ namespace debug
 		static LogHandlerSetup s_default_setup = { private_LogImpl, nullptr };
 		return s_default_setup;
 	}
+	
+	bool Platform_IsDefaultLogEnabled()
+	{
+		return false;
+	}
 } // cc7::debug
 } // cc7
 #endif //ENABLE_CC7_LOG
