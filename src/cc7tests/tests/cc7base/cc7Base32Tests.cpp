@@ -52,7 +52,7 @@ namespace tests
 								"Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure "
 								"dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat "
 								"non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-			auto base_32_lip = "JRXXEZLNEBUXA43VNUQGI33MN5ZCA43JOQQGC3LFOQWCAY3PNZZWKY3UMV2HK4RAMFSGS4DJONRWS3THEBSWY2LUFQQ"
+			auto base_32_lip = 	"JRXXEZLNEBUXA43VNUQGI33MN5ZCA43JOQQGC3LFOQWCAY3PNZZWKY3UMV2HK4RAMFSGS4DJONRWS3THEBSWY2LUFQQ"
 								"HGZLEEBSG6IDFNF2XG3LPMQQHIZLNOBXXEIDJNZRWSZDJMR2W45BAOV2CA3DBMJXXEZJAMV2CAZDPNRXXEZJANVQWO"
 								"3TBEBQWY2LROVQS4ICVOQQGK3TJNUQGCZBANVUW42LNEB3GK3TJMFWSYIDROVUXGIDON5ZXI4TVMQQGK6DFOJRWS5D"
 								"BORUW63RAOVWGYYLNMNXSA3DBMJXXE2LTEBXGS43JEB2XIIDBNRUXC5LJOAQGK6BAMVQSAY3PNVWW6ZDPEBRW63TTM"
@@ -78,7 +78,7 @@ namespace tests
 								"Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure "
 								"dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat "
 								"non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-			auto base_32_lip = "JRXXEZLNEBUXA43VNUQGI33MN5ZCA43JOQQGC3LFOQWCAY3PNZZWKY3UMV2HK4RAMFSGS4DJONRWS3THEBSWY2LUFQQ"
+			auto base_32_lip = 	"JRXXEZLNEBUXA43VNUQGI33MN5ZCA43JOQQGC3LFOQWCAY3PNZZWKY3UMV2HK4RAMFSGS4DJONRWS3THEBSWY2LUFQQ"
 								"HGZLEEBSG6IDFNF2XG3LPMQQHIZLNOBXXEIDJNZRWSZDJMR2W45BAOV2CA3DBMJXXEZJAMV2CAZDPNRXXEZJANVQWO"
 								"3TBEBQWY2LROVQS4ICVOQQGK3TJNUQGCZBANVUW42LNEB3GK3TJMFWSYIDROVUXGIDON5ZXI4TVMQQGK6DFOJRWS5D"
 								"BORUW63RAOVWGYYLNMNXSA3DBMJXXE2LTEBXGS43JEB2XIIDBNRUXC5LJOAQGK6BAMVQSAY3PNVWW6ZDPEBRW63TTM"
@@ -120,12 +120,13 @@ namespace tests
 		{
 			const char* wrong_data[] = {
 				"=ZXW6YTB",		// wrong char
-				"M=XW6YTB",		// wrong char
-				"MZ=W6YTB",		// wrong char
+				"M[XW6YTB",		// wrong char
+				"MZ1W6YTB",		// wrong char
 				"MZX=6YTB",		// wrong char
 				"MZXW=YTB",		// wrong char
 				"MZXW6=TB",		// wrong char
 				"MZXW6Y=B",		// wrong char
+				"MZXW6YB]",		// wrong char
 				"MZXW6YTB========",		// wrong padding
 				"MZXW6YTB=======",		// wrong padding
 				"MZXW6YTB======",		// wrong padding
@@ -142,11 +143,10 @@ namespace tests
 				"===",		// wrong padding
 				"==",		// wrong padding
 				"=",		// wrong padding
-				"M1======", // remaining bits
-				"MZX1====", // remaining bits
-				"MZXW7===", // remaining bits
-				"MZXW6Y1=", // remaining bits
-				"MZXW6YT1", // remaining bits
+				"P7======", // remaining bits
+				"PZ77====", // remaining bits
+				"PZ7H7===", // remaining bits
+				"PZ7H472=", // remaining bits
 				"M=======",  // wrong size
 				"MZX=====",  // wrong size
 				"MZXW6Y==",  // wrong size
@@ -167,21 +167,21 @@ namespace tests
 		{
 			const char* wrong_data[] = {
 				"=ZXW6YTB",		// wrong char
-				"M=XW6YTB",		// wrong char
-				"MZ=W6YTB",		// wrong char
+				"M[XW6YTB",		// wrong char
+				"MZ1W6YTB",		// wrong char
 				"MZX=6YTB",		// wrong char
 				"MZXW=YTB",		// wrong char
 				"MZXW6=TB",		// wrong char
 				"MZXW6Y=B",		// wrong char
-				"M1", 		// remaining bits
-				"MZX1", 	// remaining bits
-				"MZXW7", 	// remaining bits
-				"MZXW6Y1", 	// remaining bits
-				"MZXW6YT1", // remaining bits
-				"M", 		// wrong size
-				"MZX",  	// wrong size
-				"MZXW6Y",  	// wrong size
-				
+				"MZXW6YT]",		// wrong char
+				"P7",		 	// remaining bits
+				"PZ77",			// remaining bits
+				"PZ7H7", 		// remaining bits
+				"PZ7H472",	 	// remaining bits
+				"M", 			// wrong size
+				"MZX",  		// wrong size
+				"MZXW6Y",  		// wrong size
+				"MZXQ====",		// unexpected padding
 				nullptr		// end of table
 			};
 			

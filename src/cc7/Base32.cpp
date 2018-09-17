@@ -22,11 +22,21 @@ namespace cc7
 	
 	/*
 	 Sequence of 5 bytes mapped to 8 characters:
+	 +--------+--------+--------+--------+--------+
+	 0        1        2        3        4          bytes to encode
+	 .76543210.76543210.76543210.76543210.76543210. bits
+	 +--------+--------+--------+--------+--------+
+	 .AAAAA   .        .        .        .        .
+	 .     BBB.BB      .        .        .        .
+	 .        .  CCCCC .        .        .        .
+	 .        .       D.DDDD    .        .        .
+	 .        .        .    EEEE.E       .        .
+	 .        .        .        . FFFFF  .        .
+	 .        .        .        .      GG.GGG     .
+	 .        .        .        .        .   HHHHH.
+	 +--------+--------+--------+--------+--------+
+	 A - H are Base32 characters in one block
 	 
-	  01234567 01234567 01234567 01234567 01234567
-	 +--------+--------+--------+--------+--------+
-	 |< 0 >< 1| >< 2 ><|.3 >< 4.|>< 5 ><.|6 >< 7 >|
-	 +--------+--------+--------+--------+--------+
 	 */
 	
 	/**
@@ -116,29 +126,34 @@ namespace cc7
 	// MARK: - Decode
 	
 	/// Constnat returned from `_CharToDigit()` in case of invalid character.
-	static const U8 s_invalid = 0xFF;
+	static const U8 s_inv = 0xFF;
 	
-	/*
-	 The private function converts input character into 5 bit digit (0..31). If the character
-	 is not from Base32 characters, then returns |s_invalid| constant.
-	 */
+	/// The encoding table maps character range from '2' up to 'Z' to
+	/// an appropriate digit. The range between 7 and A contains invalid constant.
+	static const U8 s_decoding_table[41] = {
+		26, 27, 28, 29, 30, 31,	s_inv, s_inv,				// 2 ... 7, 8, 9
+		s_inv, s_inv, s_inv, s_inv, s_inv, s_inv, s_inv,	// :;<=>?@,
+		0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,		// A ... N
+		14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25		// O ... Z
+	};
+	
+
+	/// The private function converts input character into 5 bit digit (0..31). If the character
+	/// is not from Base32 characters, then returns |s_inv| constant.
 	static U8 _CharToDigit(char c)
 	{
-		if (c >= 'A' && c <= 'Z') {
-			return c - 'A';			// 0 .. 25
+		int index = c - '2';
+		if (index >= 0 && index < 41) {
+			return s_decoding_table[index];
 		}
-		if (c >= '2' && c <= '7') {
-			return c - '2' + 26;	// 26 .. 31
-		}
-		return s_invalid;
+		return s_inv;
 	}
 	
-	/*
-	 The private helper function validates whether the length of the string & padding meets criteria
-	 for the Base32 string. Returns pair of bool & size_t parameters, where the |bool| means that
-	 input string is valid and |size_t| is the the new, reduced size of input string,
-	 without the padding characters.
-	 */
+
+	/// The private helper function validates whether the length of the string & padding meets criteria
+	/// for the Base32 string. Returns pair of bool & size_t parameters, where the |bool| means that
+	/// input string is valid and |size_t| is the the new, reduced size of input string,
+	/// without the padding characters.
 	static std::tuple<bool, size_t> _ValidatePadding(const std::string & string, bool required)
 	{
 		size_t new_size = string.size();
@@ -196,12 +211,12 @@ namespace cc7
 		
 		while (index < count) {
 			// Read 1st character
-			if ((digit = _CharToDigit(in_string[index++])) == s_invalid) {
+			if ((digit = _CharToDigit(in_string[index++])) == s_inv) {
 				return false;
 			}
 			next_byte = digit << 3;
 			// Read 2nd character
-			if ((digit = _CharToDigit(in_string[index++])) == s_invalid) {
+			if ((digit = _CharToDigit(in_string[index++])) == s_inv) {
 				return false;
 			}
 			//  store 1st byte, keep 2 bits
@@ -216,12 +231,12 @@ namespace cc7
 				return false;	// non-cannonical end
 			}
 			// Read 3rd character, keep 7 bits
-			if ((digit = _CharToDigit(in_string[index++])) == s_invalid) {
+			if ((digit = _CharToDigit(in_string[index++])) == s_inv) {
 				return false;
 			}
 			next_byte |= digit << 1;	// keep all 5 bits from digit
 			// Read 4th character
-			if ((digit = _CharToDigit(in_string[index++])) == s_invalid) {
+			if ((digit = _CharToDigit(in_string[index++])) == s_inv) {
 				return false;
 			}
 			// store 2nd byte, keep 4 bits
@@ -236,7 +251,7 @@ namespace cc7
 				return false;	// non-cannonical end
 			}
 			// Read 5th character
-			if ((digit = _CharToDigit(in_string[index++])) == s_invalid) {
+			if ((digit = _CharToDigit(in_string[index++])) == s_inv) {
 				return false;
 			}
 			// Store 3rd byte, keep 1 bit
@@ -251,12 +266,12 @@ namespace cc7
 				return false;	// non-cannonical end
 			}
 			// Read 6th character
-			if ((digit = _CharToDigit(in_string[index++])) == s_invalid) {
+			if ((digit = _CharToDigit(in_string[index++])) == s_inv) {
 				return false;
 			}
 			next_byte |= digit << 2;
 			// Read 7th character
-			if ((digit = _CharToDigit(in_string[index++])) == s_invalid) {
+			if ((digit = _CharToDigit(in_string[index++])) == s_inv) {
 				return false;
 			}
 			buffer[3] = next_byte | (digit >> 3);
@@ -269,7 +284,7 @@ namespace cc7
 				return false;	// non-cannonical end
 			}
 			// Read 8th character
-			if ((digit = _CharToDigit(in_string[index++])) == s_invalid) {
+			if ((digit = _CharToDigit(in_string[index++])) == s_inv) {
 				return false;
 			}
 			buffer[4] = next_byte | digit;
