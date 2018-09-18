@@ -95,6 +95,8 @@
 		#define CC7_BIG_ENDIAN
 	#endif
 	#define CC7_UNUSED_VAR	__attribute__((unused))
+	// Interface deprecation
+	#define CC7_DEPRECATED(deprecated_in_version) __attribute__((deprecated))
 	//
 #elif __ANDROID__
 	// -------------------------------------------------------------------
@@ -115,6 +117,8 @@
 	// TODO: handle possible BE on Androids
 	#define CC7_LITTLE_ENDIAN
 	#define CC7_UNUSED_VAR	__attribute__((unused))
+	// Interface deprecation
+	#define CC7_DEPRECATED(deprecated_in_version) __attribute__((deprecated))
 	//
 #elif defined(WINAPI_FAMILY) && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 	// -------------------------------------------------------------------
@@ -142,6 +146,9 @@
 	#define CC7_WINDOWS
 	#define CC7_LITTLE_ENDIAN
 	#define CC7_SecureClean(ptr, size)  RtlSecureZeroMemory(ptr, size)
+	// Unused var & deprecation (just dummy macros for windows, for now)
+	#define CC7_UNUSED_VAR
+	#define CC7_DEPRECATED(deprecated_in_version)
 	//
 #else
 	//
