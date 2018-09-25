@@ -55,7 +55,7 @@
 #define CC7_JNI_SET_FIELD_FLOAT(object, clazz, field_name, value)				env->SetFloatField(object, CC7_JNI_FIELD_FLOAT(clazz, field_name), value)
 #define CC7_JNI_SET_FIELD_DOUBLE(object, clazz, field_name, value)				env->SetDoubleField(object, CC7_JNI_FIELD_DOUBLE(clazz, field_name), value)
 
-#define CC7_JNI_SET_FIELD_OBJECT(object, clazz, field_name, signature, value)	env->SetObjectField(object, CC7_JNI_FIELD_OBJECT(clazz, field_name, signatgure), value)				
+#define CC7_JNI_SET_FIELD_OBJECT(object, clazz, field_name, signature, value)	env->SetObjectField(object, CC7_JNI_FIELD_OBJECT(clazz, field_name, signature), value)
 #define CC7_JNI_SET_FIELD_STRING(object, clazz, field_name, value)				env->SetObjectField(object, CC7_JNI_FIELD_STRING(clazz, field_name), value)
 #define CC7_JNI_SET_FIELD_BYTEARRAY(object, clazz, field_name, value)			env->SetObjectField(object, CC7_JNI_FIELD_BYTEARRAY(clazz, field_name), value)
 
