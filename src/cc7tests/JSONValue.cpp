@@ -39,6 +39,8 @@ namespace tests
 				auto value = object_map.find(key);
 				if (value != object_map.end()) {
 					selected_obj = &value->second;
+				} else {
+					throw std::invalid_argument("JSONValue at path not found. Path: '" + path + "', Missing key: '" + key + "'");
 				}
 			} else {
 				throw std::invalid_argument("JSONValue is not an Object. Key: '" + key + "'");
