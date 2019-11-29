@@ -241,6 +241,12 @@ namespace tests
 		_log_data.c.current_test_incidents_count = 0;
 	}
 	
+
+	void TestLog::printLog()
+	{
+		GUARD_LOCK();
+		printf("%s", _log_data.log.c_str());
+	}
 	
 	
 	// MARK: Indentation

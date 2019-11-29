@@ -240,6 +240,10 @@ namespace tests
 		 */
 		void clearCurrentTestIncidentsCount();
 		
+		/**
+		 Print whole log to stdout.
+		 */
+		void printLog();
 		
 		
 		// MARK: Passed / Failed counters
