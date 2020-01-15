@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 47;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -37,9 +37,10 @@
 		BFB494071CE900E500F8D81B /* g_baseFiles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFB494041CE900E500F8D81B /* g_baseFiles.cpp */; };
 		BFC5254B1CDBC887002E653C /* PerformanceTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFC5254A1CDBC887002E653C /* PerformanceTimer.cpp */; };
 		BFC5254E1CDBC985002E653C /* PerformanceTimerApple.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFC5254D1CDBC985002E653C /* PerformanceTimerApple.cpp */; };
-		BFE173FD1CC963DE00039466 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE173FC1CC9639B00039466 /* libcrypto.a */; };
+		BFE173FD1CC963DE00039466 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE173FC1CC9639B00039466 /* libcrypto.a */; platformFilter = ios; };
 		BFE174041CC9664500039466 /* PlatformApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFE174021CC9664500039466 /* PlatformApple.mm */; };
 		BFE174071CC96D3600039466 /* DebugFeatures.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFE174061CC96D3600039466 /* DebugFeatures.cpp */; };
+		C352A7A823CDF6B7002941F7 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C352A7A723CDF6B7002941F7 /* libcrypto.a */; platformFilter = maccatalyst; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -244,6 +245,7 @@
 		BFE174091CCCE4C900039466 /* TestFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestFile.h; sourceTree = "<group>"; };
 		BFE1740A1CCCE53E00039466 /* TestResource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestResource.h; sourceTree = "<group>"; };
 		BFE1740B1CCCE59200039466 /* TestDirectory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestDirectory.h; sourceTree = "<group>"; };
+		C352A7A723CDF6B7002941F7 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -267,6 +269,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C352A7A823CDF6B7002941F7 /* libcrypto.a in Frameworks */,
 				BFE173FD1CC963DE00039466 /* libcrypto.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -414,6 +417,7 @@
 				BFB1A6C11CB594BF00B2D172 /* include */,
 				BF4B4A831CB5977200BF2C9D /* src */,
 				BFE173AD1CC9638900039466 /* openssl */,
+				C352A7A423CDF664002941F7 /* openssl-catalyst */,
 				BF498AA31CDCBE8400D7E904 /* CC7TestsWrapper */,
 				BFB1A6B51CB5937800B2D172 /* Products */,
 			);
@@ -712,6 +716,23 @@
 			path = apple;
 			sourceTree = "<group>";
 		};
+		C352A7A423CDF664002941F7 /* openssl-catalyst */ = {
+			isa = PBXGroup;
+			children = (
+				C352A7A623CDF6B7002941F7 /* lib */,
+			);
+			name = "openssl-catalyst";
+			sourceTree = "<group>";
+		};
+		C352A7A623CDF6B7002941F7 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				C352A7A723CDF6B7002941F7 /* libcrypto.a */,
+			);
+			name = lib;
+			path = ../openssl/macCatalyst/lib;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -791,6 +812,7 @@
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				en,
 				Base,
 			);
 			mainGroup = BFB1A6AB1CB5937800B2D172;
@@ -909,7 +931,11 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = CC7TestsWrapper/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.cc7.lib.CC7TestsWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -922,7 +948,11 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = CC7TestsWrapper/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.cc7.lib.CC7TestsWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
