@@ -40,7 +40,7 @@
 		BFE173FD1CC963DE00039466 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE173FC1CC9639B00039466 /* libcrypto.a */; platformFilter = ios; };
 		BFE174041CC9664500039466 /* PlatformApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFE174021CC9664500039466 /* PlatformApple.mm */; };
 		BFE174071CC96D3600039466 /* DebugFeatures.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFE174061CC96D3600039466 /* DebugFeatures.cpp */; };
-		C352A7A823CDF6B7002941F7 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C352A7A723CDF6B7002941F7 /* libcrypto.a */; platformFilter = maccatalyst; };
+		C352A7A823CDF6B7002941F7 /* libcrypto-macCatalyst.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C352A7A723CDF6B7002941F7 /* libcrypto-macCatalyst.a */; platformFilter = maccatalyst; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -245,7 +245,7 @@
 		BFE174091CCCE4C900039466 /* TestFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestFile.h; sourceTree = "<group>"; };
 		BFE1740A1CCCE53E00039466 /* TestResource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestResource.h; sourceTree = "<group>"; };
 		BFE1740B1CCCE59200039466 /* TestDirectory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestDirectory.h; sourceTree = "<group>"; };
-		C352A7A723CDF6B7002941F7 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
+		C352A7A723CDF6B7002941F7 /* libcrypto-macCatalyst.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libcrypto-macCatalyst.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -269,7 +269,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C352A7A823CDF6B7002941F7 /* libcrypto.a in Frameworks */,
+				C352A7A823CDF6B7002941F7 /* libcrypto-macCatalyst.a in Frameworks */,
 				BFE173FD1CC963DE00039466 /* libcrypto.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -727,7 +727,7 @@
 		C352A7A623CDF6B7002941F7 /* lib */ = {
 			isa = PBXGroup;
 			children = (
-				C352A7A723CDF6B7002941F7 /* libcrypto.a */,
+				C352A7A723CDF6B7002941F7 /* libcrypto-macCatalyst.a */,
 			);
 			name = lib;
 			path = ../openssl/macCatalyst/lib;
@@ -1012,7 +1012,10 @@
 					"$(PROJECT_DIR)/../openssl/ios/include",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../openssl/ios/lib";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../openssl/ios/lib",
+					"$(PROJECT_DIR)/../openssl/macCatalyst/lib",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1067,7 +1070,10 @@
 					"$(PROJECT_DIR)/../openssl/ios/include",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../openssl/ios/lib";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../openssl/ios/lib",
+					"$(PROJECT_DIR)/../openssl/macCatalyst/lib",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
